@@ -32,7 +32,7 @@ var diameter = 1000;
       .delay(function(d, i) {delay = i * 7; return delay;}) 
       .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
       .attr('r', function(d, i) {        
-        return 5 * d.value; })
+        return d.r; })
       .style('opacity', 1); // force to 1, so they don't get stuck below 1 at enter()
 
     // enter - only applies to incoming elements (once emptying data) 
@@ -44,7 +44,7 @@ var diameter = 1000;
       .transition()
       .duration(duration * 1.2)
       .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
-      .attr('r', function(d) { return 5 * d.value; })
+      .attr('r', function(d) { return d.r; })
       .style('opacity', 1);
 
     // exit
@@ -78,12 +78,6 @@ var diameter = 1000;
         }
     );
     
-
-
-
-
-
-    // console.log(uniqueWords);
     len = words.length;
     tick();
   }
@@ -101,10 +95,11 @@ var diameter = 1000;
         uniqueWords.push({name: tmp, value: 1});
         tmpArray.push(tmp);        
 
-      } else {        
-        if(uniqueWords[idx].value < 50) {
+      } else {
+        console.log('duplicate');
+        // if(uniqueWords[idx].value < 50) {
           uniqueWords[idx].value += 1;  
-        }
+        // }
         
       }
       // console.log(uniqueWords[loop]);       
@@ -113,7 +108,8 @@ var diameter = 1000;
 
       setTimeout(tick, duration);
     } else {
-      console.log(uniqueWords);      
+      console.log(uniqueWords);
+      
     }
       
   }
