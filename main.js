@@ -10,7 +10,7 @@ var diameter = 1000;
 
   // var color = d3.scale.category20();
   var color = d3.scaleOrdinal(d3.schemeCategory20c);
-  var duration = 200;
+  var duration = 3000;
 
   function drawBubbles(data) {
     // console.log('draw chart');
@@ -91,30 +91,42 @@ var diameter = 1000;
   var loop = 0;  
   var len;   
   var tmpArray = [];
+  var cluster = 0;
   function tick() {
-    if(loop < len) {      
-      
-      let tmp = words[loop].toLowerCase();
-      let idx;
+      for(let i=0; i < 10; ++i) {
+        if(loop < len) {      
+        
+          let tmp = words[loop].toLowerCase();
+          let idx;
 
-      if((idx = tmpArray.indexOf(tmp)) == -1) {
-        uniqueWords.push({name: tmp, value: 1});
-        tmpArray.push(tmp);        
+          if((idx = tmpArray.indexOf(tmp)) == -1) {
+            uniqueWords.push({name: tmp, value: 1});
+            tmpArray.push(tmp);        
 
-      } else {        
-        if(uniqueWords[idx].value < 50) {
-          uniqueWords[idx].value += 1;  
-        }
+          } else {
+            // console.log('duplicate');
+            // if(uniqueWords[idx].value < 50) {
+              uniqueWords[idx].value += 1;  
+            // }
+            
+          }
+          // console.log(uniqueWords[loop]);       
+          
+          ++loop;
+          ++cluster;
+        } else {
+          break;
+          console.log(uniqueWords);        
+        } 
         
       }
-      // console.log(uniqueWords[loop]);       
-      drawBubbles({children: uniqueWords}); 
-      ++loop;
-
-      setTimeout(tick, duration);
-    } else {
-      console.log(uniqueWords);      
-    }
+      
+      if(cluster > 0) {
+        drawBubbles({children: uniqueWords});    
+        setTimeout(tick, duration);
+      }
+      
+      cluster = 0;
       
   }
 
