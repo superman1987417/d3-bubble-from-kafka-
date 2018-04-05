@@ -4,7 +4,7 @@
     .attr('height', 1000);
 
   var color = d3.scale.category20();  
-  var duration = 3000;
+  var duration = 200;
 
   var padding = 1,
     maxRadius = 3;
@@ -25,9 +25,8 @@
     
 
     var circle = svg.selectAll("circle")
-        .data(nodes)
-      .enter().append("circle")
-        .attr("r", function(d) { return 5 * d.radius; });
+        .data(nodes);
+      
         // .style("fill", function(d) { return d.color; });
 
     // console.log(nodes);
@@ -42,6 +41,10 @@
       .attr('r', function(d, i) {        
         return 5 * d.radius; })
       .style('opacity', 1); // force to 1, so they don't get stuck below 1 at enter()
+
+    circle.enter().append("circle")
+        .attr("fill", function(d, i) {return color(i)})
+        .attr("r", function(d) { return 5 * d.radius; });
 
     // enter - only applies to incoming elements (once emptying data) 
     // circle.enter().append('circle')
@@ -188,7 +191,7 @@
 
   function loadTxtFile() {
     var txtFile = new XMLHttpRequest();
-    txtFile.open("GET", "sam.txt", true);
+    txtFile.open("GET", "sample.txt", true);
     txtFile.onreadystatechange = function() {
       if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
         if (txtFile.status === 200) {  // Makes sure it's found the file.
