@@ -36,49 +36,64 @@
     var delay = 0;
 
     // update - this is created before enter.append. it only applies to updating nodes.
-    circle.transition()
-      .duration(duration)
-      .delay(function(d, i) {delay = i * 7; return delay;})       
-      .attr('r', function(d, i) {        
-        return d.radius; })
-      .style('opacity', 1); // force to 1, so they don't get stuck below 1 at enter()
+    // circle.transition()
+    //   .duration(duration)
+    //   .delay(function(d, i) {delay = i * 7; return delay;})       
+    //   .attr('r', function(d, i) {        
+    //     return d.radius; })
+    //   .style('opacity', 1); // force to 1, so they don't get stuck below 1 at enter()
 
-    circle.enter().append("circle")
-        .attr("fill", function(d, i) {return color(i)})
-        .attr("r", function(d) { return d.radius; });
+    // circle.enter().append("circle")
+    //     .attr("fill", function(d, i) {return color(i)})
+    //     .attr("r", function(d) { return d.radius; });
 
-    // enter - only applies to incoming elements (once emptying data) 
-    // circle.enter().append('circle')
-    //   .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
-    //   .attr('r', function(d) { return 0; })
-    //   .attr('class', function(d) { return d.className; })
-    //   .style("fill", function(d, i) { return color(i); })
-    //   .transition()
-    //   .duration(duration * 1.2)
-    //   .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
-    //   .attr('r', function(d) { return 5 * d.value; })
-    //   .style('opacity', 1);
-    
-    // force.resume();
+        var g = svg.selectAll("g.node")
+              .data(nodes);
+        g.select('circle')
+              .transition()
+              .duration(duration)
+              .attr('r', function(d) {
+                  return d.radius});
+
+        var node = g.enter().append("g")
+                    .attr("class", "node");
+            node.append("circle")
+                .attr('r', function(d) {
+                    return d.radius;})
+                .style( 'fill', function(d, i) {
+                    return color(i)});
+            node.append("text")
+                .attr({
+                  x: 0,
+                  y: 3,
+                })
+                .text(function(d) {
+                  return d.name;
+                });
+
+        g.exit().remove();
 
     function tick(e) {
       var k = 0.04 * e.alpha;
   
       // Push nodes toward their designated focus.
-      nodes.forEach(function(o, i) {
-        // Make sleep more sluggish moving.        
-        var damper = 0.6;
-        // var damper = 1;
-        // o.color = color(curr_act);
-        // o.y += (500 * Math.random() - o.y) * k * damper;
-        // o.x += (500 * Math.random() - o.x) * k * damper;
-      });
+      // nodes.forEach(function(o, i) {
+      //   // Make sleep more sluggish moving.        
+      //   var damper = 0.6;
+      //   // var damper = 1;
+      //   // o.color = color(curr_act);
+      //   // o.y += (500 * Math.random() - o.y) * k * damper;
+      //   // o.x += (500 * Math.random() - o.x) * k * damper;
+      // });
 
-      circle
-          .each(collide(.2))
+      
+        g.each(collide(.2))
           // .style("fill", function(d) { return d.color; })
-          .attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; });
+          .attr({
+            transform: function(d, i) {
+              return "translate(" + d.x + "," + d.y + ")";
+            }
+          });
     }
     
     function collide(alpha) {
@@ -108,6 +123,8 @@
         });
       };
     }
+
+
   }
 
 
@@ -195,7 +212,7 @@
 
   function loadTxtFile() {
     var txtFile = new XMLHttpRequest();
-    txtFile.open("GET", "sample.txt", true);
+    txtFile.open("GET", "sam.txt", true);
     txtFile.onreadystatechange = function() {
       if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
         if (txtFile.status === 200) {  // Makes sure it's found the file.
