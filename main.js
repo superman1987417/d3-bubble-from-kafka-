@@ -75,18 +75,7 @@
 
     function tick(e) {
       var k = 0.04 * e.alpha;
-  
-      // Push nodes toward their designated focus.
-      // nodes.forEach(function(o, i) {
-      //   // Make sleep more sluggish moving.        
-      //   var damper = 0.6;
-      //   // var damper = 1;
-      //   // o.color = color(curr_act);
-      //   // o.y += (500 * Math.random() - o.y) * k * damper;
-      //   // o.x += (500 * Math.random() - o.x) * k * damper;
-      // });
-
-      
+      // Push nodes toward their designated focus.      
         g.each(collide(.2))
           // .style("fill", function(d) { return d.color; })
           .attr({
@@ -212,7 +201,7 @@
 
   function loadTxtFile() {
     var txtFile = new XMLHttpRequest();
-    txtFile.open("GET", "sam.txt", true);
+    txtFile.open("GET", "sample.txt", true);
     txtFile.onreadystatechange = function() {
       if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
         if (txtFile.status === 200) {  // Makes sure it's found the file.
