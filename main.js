@@ -128,7 +128,7 @@ var diameter = 1000;
 
   function loadTxtFile() {
     var txtFile = new XMLHttpRequest();
-    txtFile.open("GET", "sample.txt", true);
+    txtFile.open("GET", "sam.txt", true);
     txtFile.onreadystatechange = function() {
       if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
         if (txtFile.status === 200) {  // Makes sure it's found the file.
